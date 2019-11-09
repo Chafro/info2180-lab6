@@ -63,10 +63,30 @@ $superheroes = [
   ], 
 ];
 
-?>
+$q = $_REQUEST["q"];
+$str="";
+$chk=0;
 
-<ul>
-<?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
-<?php endforeach; ?>
-</ul>
+if ($q !== "") {
+    $chk=0;
+    $q = strtolower($q);
+    foreach($superheroes as $hero) {
+        if ($q===strtolower($hero['alias'])||$q===strtolower($hero['name'])) {
+                $str = "<h3>".strtoupper($hero['alias'])."</h3> <h4> A.K.A ".strtoupper($hero['name'])."</h4> <p>".$hero['biography']."</p>";
+                echo $str;
+                $chk=1;
+        }
+    }
+    if ($chk==0) {
+      $str='<div class="red">Superhero not found</div>';
+      echo $str;
+    }
+}
+else{ ?>
+      <ul>
+        <?php foreach ($superheroes as $superhero): ?>
+        <li><?= $superhero['alias']; ?></li>
+        <?php endforeach; ?>
+      </ul>
+<?php }
+?>
